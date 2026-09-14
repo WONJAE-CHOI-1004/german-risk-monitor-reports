@@ -1,0 +1,1136 @@
+<title>AI 인프라 자본구조 원장</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+:root {
+  --paper:      #eef1ef;
+  --surface:    #fcfcfb;
+  --surface-2:  #f4f6f4;
+  --ink:        #14191a;
+  --ink-2:      #3a4749;
+  --muted:      #5d6b6c;
+  --hairline:   #d3d9d6;
+  --hairline-2: #e3e8e5;
+  --accent:     #0079a6;
+
+  --c-compute:  #0079a6;
+  --c-hardware: #b8621b;
+  --c-equity:   #6b4ea8;
+  --c-debt:     #00834f;
+
+  --g-primary:  #00834f;
+  --g-second:   #b8621b;
+  --g-unver:    #a8302a;
+
+  --track:      #e0e5e2;
+
+  --ff-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --ff-body:    "Source Serif 4", Georgia, "Times New Roman", serif;
+  --ff-mono:    "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:      #101413;
+    --surface:    #191e1d;
+    --surface-2:  #202625;
+    --ink:        #e7ebe8;
+    --ink-2:      #c2cbc8;
+    --muted:      #93a09d;
+    --hairline:   #2e3634;
+    --hairline-2: #252c2b;
+    --accent:     #2a90bd;
+
+    --c-compute:  #2a90bd;
+    --c-hardware: #c9762a;
+    --c-equity:   #8a74cf;
+    --c-debt:     #1fa065;
+
+    --g-primary:  #1fa065;
+    --g-second:   #c9762a;
+    --g-unver:    #d4564e;
+
+    --track:      #2b3331;
+  }
+}
+
+:root[data-theme="dark"] {
+  --paper:      #101413;
+  --surface:    #191e1d;
+  --surface-2:  #202625;
+  --ink:        #e7ebe8;
+  --ink-2:      #c2cbc8;
+  --muted:      #93a09d;
+  --hairline:   #2e3634;
+  --hairline-2: #252c2b;
+  --accent:     #2a90bd;
+
+  --c-compute:  #2a90bd;
+  --c-hardware: #c9762a;
+  --c-equity:   #8a74cf;
+  --c-debt:     #1fa065;
+
+  --g-primary:  #1fa065;
+  --g-second:   #c9762a;
+  --g-unver:    #d4564e;
+
+  --track:      #2b3331;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--ff-body);
+  font-size: 16px;
+  line-height: 1.68;
+  -webkit-font-smoothing: antialiased;
+}
+
+.sheet {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding-inline: 20px;
+  padding-block: 0 72px;
+}
+
+/* ── Masthead ─────────────────────────────────── */
+
+.mast {
+  border-bottom: 2px solid var(--ink);
+  padding-block: 40px 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 32px;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.mast h1 {
+  font-family: var(--ff-display);
+  font-weight: 700;
+  font-size: clamp(30px, 5.2vw, 46px);
+  line-height: 1.06;
+  letter-spacing: -0.022em;
+  margin: 0;
+  text-wrap: balance;
+  max-width: 15ch;
+}
+
+.mast .sub {
+  font-family: var(--ff-mono);
+  font-size: 12px;
+  line-height: 1.9;
+  color: var(--muted);
+  text-align: right;
+  letter-spacing: 0.01em;
+}
+
+.mast .sub b {
+  color: var(--ink-2);
+  font-weight: 600;
+}
+
+.deck {
+  font-size: 18px;
+  line-height: 1.62;
+  color: var(--ink-2);
+  max-width: 64ch;
+  margin: 26px 0 0;
+}
+
+/* ── Structure ────────────────────────────────── */
+
+section { margin-top: 56px; }
+
+h2 {
+  font-family: var(--ff-display);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 6px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--hairline);
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+}
+
+h2 .num {
+  font-family: var(--ff-mono);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+h3 {
+  font-family: var(--ff-display);
+  font-weight: 600;
+  font-size: 21px;
+  letter-spacing: -0.012em;
+  margin: 30px 0 10px;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+p { margin: 0 0 15px; max-width: 68ch; }
+
+.lede { margin-top: 20px; }
+
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+strong { font-weight: 600; }
+
+code, .mono { font-family: var(--ff-mono); font-size: 0.88em; }
+
+/* ── Notice block ─────────────────────────────── */
+
+.notice {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-left: 3px solid var(--g-unver);
+  padding: 20px 22px;
+  margin-top: 28px;
+}
+
+.notice h3 {
+  margin-top: 0;
+  font-size: 17px;
+}
+
+.notice p { font-size: 15px; margin-bottom: 10px; }
+.notice p:last-child { margin-bottom: 0; }
+
+/* ── Source grade chips ───────────────────────── */
+
+.grade {
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 1px 6px;
+  border-radius: 3px;
+  white-space: nowrap;
+  border: 1px solid;
+}
+.g1 { color: var(--g-primary); border-color: var(--g-primary); }
+.g2 { color: var(--g-second);  border-color: var(--g-second); }
+.g3 { color: var(--muted);     border-color: var(--hairline); }
+.g4 { color: var(--g-unver);   border-color: var(--g-unver); }
+
+.gradekey {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px 26px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.gradekey li {
+  display: flex;
+  gap: 9px;
+  align-items: baseline;
+  font-size: 14px;
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+
+/* ── Value chain stack ────────────────────────── */
+
+.stack {
+  margin-top: 26px;
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+}
+
+.layer {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1.05fr) minmax(0, 1.55fr) 118px;
+  gap: 0 18px;
+  padding: 15px 18px;
+  border-bottom: 1px solid var(--hairline-2);
+  align-items: start;
+}
+.layer:last-child { border-bottom: 0; }
+
+.layer .lid {
+  font-family: var(--ff-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+  padding-top: 2px;
+}
+
+.layer .lname {
+  font-family: var(--ff-display);
+  font-weight: 600;
+  font-size: 15.5px;
+  line-height: 1.36;
+  color: var(--ink);
+}
+.layer .lplay {
+  display: block;
+  font-family: var(--ff-mono);
+  font-weight: 400;
+  font-size: 11.5px;
+  color: var(--muted);
+  margin-top: 3px;
+  letter-spacing: 0.01em;
+}
+
+.layer .lnote {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+.layer .lcost {
+  font-family: var(--ff-mono);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  padding-top: 2px;
+}
+.layer .lcost span { display: block; color: var(--muted); font-size: 10.5px; letter-spacing: 0.04em; text-transform: uppercase; }
+
+.layer.bottleneck { background: var(--surface-2); }
+.layer.bottleneck .lid::after {
+  content: "▲";
+  display: block;
+  font-size: 8px;
+  color: var(--g-second);
+  margin-top: 4px;
+}
+
+.stackfoot {
+  font-family: var(--ff-mono);
+  font-size: 11.5px;
+  color: var(--muted);
+  margin-top: 9px;
+  line-height: 1.6;
+}
+
+/* ── Bar charts ───────────────────────────────── */
+
+.fig {
+  margin-top: 26px;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  padding: 20px 22px 18px;
+}
+
+.fig-h {
+  font-family: var(--ff-display);
+  font-weight: 600;
+  font-size: 16px;
+  margin: 0 0 3px;
+  color: var(--ink);
+}
+.fig-sub {
+  font-family: var(--ff-mono);
+  font-size: 11.5px;
+  color: var(--muted);
+  margin: 0 0 18px;
+  line-height: 1.6;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+}
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--ff-mono);
+  font-size: 11.5px;
+  color: var(--ink-2);
+}
+.legend i {
+  width: 11px;
+  height: 11px;
+  border-radius: 2px;
+  flex: none;
+  display: block;
+}
+
+.bars {
+  display: grid;
+  grid-template-columns: minmax(92px, max-content) minmax(0, 1fr) minmax(74px, max-content);
+  gap: 9px 14px;
+  align-items: center;
+}
+
+.bars .bl {
+  font-family: var(--ff-mono);
+  font-size: 12.5px;
+  color: var(--ink-2);
+  line-height: 1.35;
+}
+
+.bars .bt {
+  background: var(--track);
+  height: 17px;
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.bars .bf {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-radius: 0 4px 4px 0;
+  background: var(--accent);
+  transition: filter .15s ease;
+}
+.bars .row:hover .bf, .bars .bt:hover .bf { filter: brightness(1.12); }
+
+.bf.range { border-radius: 4px; }
+.bf.ghost {
+  background: transparent;
+  border: 1.5px dashed var(--c-equity);
+  border-radius: 4px;
+}
+
+.bars .bv {
+  font-family: var(--ff-mono);
+  font-size: 12.5px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.bars .bv em {
+  font-style: normal;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.axis {
+  grid-column: 2;
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--ff-mono);
+  font-size: 10.5px;
+  color: var(--muted);
+  border-top: 1px solid var(--hairline-2);
+  padding-top: 5px;
+  margin-top: 3px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Tables ───────────────────────────────────── */
+
+.tablewrap {
+  margin-top: 26px;
+  overflow-x: auto;
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 760px;
+  font-size: 13.5px;
+}
+
+thead th {
+  font-family: var(--ff-display);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: left;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--hairline);
+  white-space: nowrap;
+  background: var(--surface-2);
+}
+
+tbody td {
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--hairline-2);
+  vertical-align: top;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:hover td { background: var(--surface-2); }
+
+td.who { color: var(--ink); font-weight: 600; font-family: var(--ff-display); font-size: 13.5px; white-space: nowrap; }
+td.amt { font-family: var(--ff-mono); font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--ink); }
+td.dt  { font-family: var(--ff-mono); font-size: 12px; color: var(--muted); white-space: nowrap; }
+td.gd  { white-space: nowrap; }
+
+.tfoot {
+  font-family: var(--ff-mono);
+  font-size: 11.5px;
+  color: var(--muted);
+  margin-top: 9px;
+  line-height: 1.65;
+}
+
+/* ── Conflict entries ─────────────────────────── */
+
+.conflicts { margin-top: 22px; display: grid; gap: 14px; }
+
+.conflict {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  padding: 16px 18px;
+}
+.conflict h4 {
+  font-family: var(--ff-display);
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 8px;
+  color: var(--ink);
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+.conflict p { font-size: 14px; margin: 0 0 8px; max-width: none; }
+.conflict p:last-child { margin-bottom: 0; }
+.conflict .verdict {
+  font-family: var(--ff-mono);
+  font-size: 12px;
+  color: var(--ink);
+  border-top: 1px dotted var(--hairline);
+  padding-top: 8px;
+  margin-top: 10px;
+}
+.conflict .verdict b { color: var(--accent); font-weight: 600; }
+
+/* ── Checklist ────────────────────────────────── */
+
+.checklist { list-style: none; padding: 0; margin: 22px 0 0; display: grid; gap: 11px; }
+.checklist li {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 12px;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  padding-bottom: 11px;
+  border-bottom: 1px solid var(--hairline-2);
+}
+.checklist li:last-child { border-bottom: 0; }
+.checklist li::before {
+  content: "☐";
+  font-family: var(--ff-mono);
+  color: var(--accent);
+  font-size: 15px;
+}
+.checklist b { color: var(--ink); font-weight: 600; }
+
+/* ── Sources ──────────────────────────────────── */
+
+.srcs { columns: 2; column-gap: 34px; margin-top: 22px; }
+.srcs li {
+  break-inside: avoid;
+  font-family: var(--ff-mono);
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin-bottom: 9px;
+}
+.srcs a { color: var(--ink-2); }
+
+footer {
+  margin-top: 64px;
+  padding-top: 18px;
+  border-top: 2px solid var(--ink);
+  font-family: var(--ff-mono);
+  font-size: 11.5px;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+@media (max-width: 720px) {
+  .mast { display: block; }
+  .mast .sub { text-align: left; margin-top: 18px; }
+  .layer { grid-template-columns: 44px minmax(0, 1fr); gap: 4px 14px; }
+  .layer .lnote { grid-column: 2; }
+  .layer .lcost { grid-column: 2; text-align: left; margin-top: 6px; }
+  .layer.bottleneck .lid::after { display: inline; margin-left: 4px; }
+  .bars { grid-template-columns: minmax(0, 1fr) minmax(66px, max-content); }
+  .bars .bl { grid-column: 1 / -1; margin-bottom: -4px; }
+  .bars .bt { grid-column: 1; }
+  .axis { grid-column: 1; }
+  .srcs { columns: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+</style>
+
+<div class="sheet">
+
+<header class="mast">
+  <h1>AI 인프라 자본구조 원장</h1>
+  <div class="sub">
+    조사 기준일 <b>2026-09-14</b><br>
+    범위 <b>AI 인프라 밸류체인 L1–L7</b><br>
+    관점 <b>구조 · 비용</b><br>
+    검증 등급 <b>2차 출처 기준</b>
+  </div>
+</header>
+
+<p class="deck">
+반도체 실리콘에서 모델 서비스까지, AI 인프라 밸류체인 7개 계층의 자금 이동 경로와
+비용 구조를 정리한다. 기업 간 자금은 지분·워런트·오프테이크·회사채·SPV의 다섯 가지
+형태로만 이동하며, 각 형태는 재무제표에 나타나는 위치가 다르다. 본 문서는 그 경로를
+계층별로 분해하고, 각 수치의 출처 등급을 병기한다.
+</p>
+
+<div class="notice">
+  <h3>검증 한계 고지</h3>
+  <p>
+    본 조사는 <strong>SEC EDGAR 및 기업 IR 사이트에 직접 접근하지 못한 상태</strong>에서
+    수행되었다. 조사 환경의 네트워크 정책이 <span class="mono">sec.gov</span>,
+    <span class="mono">data.sec.gov</span>, <span class="mono">nvidianews.nvidia.com</span>,
+    <span class="mono">ir.amd.com</span>, <span class="mono">investor.atmeta.com</span> 등
+    1차 출처 도메인에 대한 접속을 차단했다(HTTP 403 / CONNECT 거부).
+  </p>
+  <p>
+    따라서 <strong>본 문서에 1차 공시 원문 대조를 완료한 수치는 없다.</strong>
+    모든 금액은 검색 기반 2차 출처이며, 각 항목에 등급을 표기했다. 투자 판단에 사용하기
+    전 §6의 검증 체크리스트에 따라 원문 대조가 필요하다.
+  </p>
+  <ul class="gradekey">
+    <li><span class="grade g1">1차</span><span>공시 원문 대조 완료 — <strong>본 조사 0건</strong></span></li>
+    <li><span class="grade g2">2차-강</span><span>기업 보도자료 존재 + 복수 매체 동일 수치</span></li>
+    <li><span class="grade g3">2차-약</span><span>단독 보도 · 미공개 소식통 · 추정치</span></li>
+    <li><span class="grade g4">제외</span><span>교차검증 실패 — 본문에서 배제</span></li>
+  </ul>
+</div>
+
+<!-- ═══════════════ 1 ═══════════════ -->
+<section>
+<h2><span class="num">01</span> 밸류체인 계층 구조</h2>
+
+<p class="lede">
+계층 번호는 물리적 생산 순서를 따른다. 웨이퍼가 가공되고(L1), 패키징되고(L2), 메모리와
+결합되어(L3) 시스템이 되며(L4), 전력과 부지 위에 놓여(L5) 클라우드로 임대되고(L6),
+최종적으로 모델 학습·추론에 소비된다(L7). 자금은 이 순서의 <strong>역방향</strong>으로
+흐른다 — L7의 약정이 L6의 백로그가 되고, L6의 백로그가 L5의 담보가 된다.
+</p>
+
+<div class="stack">
+  <div class="layer">
+    <div class="lid">L1</div>
+    <div class="lname">파운드리 · 웨이퍼<span class="lplay">TSMC · Samsung Foundry · Intel</span></div>
+    <div class="lnote">TSMC는 2026년 capex 목표를 기존 520–560억 달러에서 <strong>600–640억 달러</strong>로 상향. 전년 대비 증액분의 상당 부분이 후공정으로 배분된다.</div>
+    <div class="lcost"><span>1GW capex 비중</span>3–4%</div>
+  </div>
+
+  <div class="layer bottleneck">
+    <div class="lid">L2</div>
+    <div class="lname">첨단 패키징<span class="lplay">TSMC CoWoS</span></div>
+    <div class="lnote">TSMC가 글로벌 CoWoS 생산의 <strong>90% 이상</strong>을 점유. 2026년 말 목표 월 12.5만–13만 웨이퍼. 2026년 말까지 캐파 소진, 리드타임이 2027년으로 이월되었다는 보도.</div>
+    <div class="lcost"><span>상태</span>공급 제약</div>
+  </div>
+
+  <div class="layer bottleneck">
+    <div class="lid">L3</div>
+    <div class="lname">메모리 · HBM<span class="lplay">SK하이닉스 · Samsung · Micron</span></div>
+    <div class="lnote">3사 모두 2026년 HBM 물량이 사실상 선계약 완료. 범용 DRAM 캐파가 HBM으로 이전되며 DDR5 계약가가 급등. Micron의 아이다호 신규 팹은 2027년 중반에야 DRAM 양산 개시.</div>
+    <div class="lcost"><span>1GW capex 비중</span>3–4%</div>
+  </div>
+
+  <div class="layer">
+    <div class="lid">L4</div>
+    <div class="lname">가속기 · 시스템<span class="lplay">NVIDIA · AMD · Broadcom(커스텀)</span></div>
+    <div class="lnote">NVIDIA는 Blackwell·Rubin 합산 <strong>5,000억 달러 이상</strong>의 수주잔고(2025–2026년분)를 제시. 서버가 1GW capex의 최대 항목으로, 한 추정에서 약 60%를 차지.</div>
+    <div class="lcost"><span>1GW capex 비중</span>~60%</div>
+  </div>
+
+  <div class="layer bottleneck">
+    <div class="lid">L5</div>
+    <div class="lname">전력 · 부지 · 건설<span class="lplay">유틸리티 · 터빈 제조사 · EPC</span></div>
+    <div class="lnote">가스터빈은 신규 발전소 비용의 최대 30%를 차지하며, 2026년 말 기준 가격이 2019년 대비 <strong>195%</strong> 상승 전망. 대기열은 2030년대 초반까지. 미국 전기요금은 2019년 대비 42% 상승.</div>
+    <div class="lcost"><span>opex 비중</span>20–30%</div>
+  </div>
+
+  <div class="layer">
+    <div class="lid">L6</div>
+    <div class="lname">데이터센터 · 네오클라우드<span class="lplay">CoreWeave · Nebius · IREN · Nscale · Crusoe</span></div>
+    <div class="lnote">CoreWeave의 잔여이행의무(RPO)는 2026년 3월 기준 <strong>994억 달러</strong>. 2026년 2분기 매출 25.75억 달러(+112% YoY), 2026년 말 가동 전력 목표 1.7GW. Nebius는 계약 전력 4GW 이상.</div>
+    <div class="lcost"><span>구조</span>백로그 담보화</div>
+  </div>
+
+  <div class="layer">
+    <div class="lid">L7</div>
+    <div class="lname">하이퍼스케일러 · 모델랩<span class="lplay">MSFT · AMZN · GOOGL · META · ORCL / OpenAI · Anthropic · xAI</span></div>
+    <div class="lnote">Big4 하이퍼스케일러의 2026년 capex 가이던스는 <strong>6,300억–7,250억 달러</strong>(출처·시점별 상이, §5 참조). 모델랩은 매출이 아니라 자본시장에서 조달한 자금으로 L6을 구매한다.</div>
+    <div class="lcost"><span>2026 capex</span>$630–725B</div>
+  </div>
+</div>
+<p class="stackfoot">▲ = 2026년 9월 기준 공급 제약이 보고된 계층. 비중 수치는 1GW 규모 시설 기준의 제3자 추정이며 시설 사양에 따라 변동한다.</p>
+</section>
+
+<!-- ═══════════════ 2 ═══════════════ -->
+<section>
+<h2><span class="num">02</span> 자금 이동의 다섯 가지 형태</h2>
+
+<p class="lede">
+"서로에게 투자한다"는 표현은 회계적으로 최소 다섯 가지 서로 다른 거래를 가리킨다.
+각 형태는 재무제표상 인식 위치와 위험 귀속이 다르며, 이 차이가 구조 분석의 핵심이다.
+</p>
+
+<h3>① 지분투자 — 대차대조표 자산</h3>
+<p>
+공급자가 고객의 지분을 취득한다. NVIDIA의 AI 기업 지분투자 평가액은 2026년 7월 26일 기준
+<strong>990억 달러</strong>로, 1년 전 약 70억 달러에서 증가했다. 자금이 투자로 나가
+매출로 돌아오는 경로가 성립하므로 순환거래 논의의 중심에 있다.
+</p>
+
+<h3>② 워런트 — 공급계약에 내장된 지분 옵션</h3>
+<p>
+AMD는 OpenAI에 <strong>1억 6,000만 주</strong>의 신주인수권을 행사가격 <strong>주당 0.01달러</strong>로
+발행했다. 전량 행사 시 발행주식의 약 10%에 해당한다. 베스팅은 GPU 배치 규모(1GW→6GW)와
+AMD 주가 목표에 연동되어, 고객의 구매 실적이 공급자의 지분 희석을 유발하는 구조다.
+</p>
+
+<h3>③ 오프테이크 · 백스톱 — 우발부채</h3>
+<p>
+NVIDIA는 CoreWeave의 미판매 잔여 클라우드 캐파를 2032년 4월 13일까지 매입하기로 약정했으며,
+초기 규모는 <strong>63억 달러</strong>로 보도되었다. 대차대조표에 자산으로 계상되지 않으나
+채권자 관점에서는 신용보강으로 작동한다. 다만 NVIDIA의 의무는 63억 달러로 상한이 있는 반면
+CoreWeave의 채무 총액에는 상한이 없다.
+</p>
+
+<h3>④ 회사채 — 대차대조표 부채</h3>
+<p>
+2026년 초부터 7월 초까지 Amazon·Alphabet·Meta·Oracle 4사가 발행한 회사채는 약
+<strong>1,940억 달러</strong>로, 2025년 연간 전체 대비 79% 증가했다. 기술 섹터는 2026년 미국
+회사채 발행의 18%, 투자등급 시장의 10.3%를 차지해 기록을 경신했다. Alphabet은 수십 년 만에
+기술기업 최초로 100년 만기 채권을 발행했다.
+</p>
+
+<h3>⑤ SPV · 사모신용 · 증권화 — 부외(off-balance-sheet)</h3>
+<p>
+Meta와 Blue Owl Capital의 Hyperion 합작법인이 대표 사례다. Blue Owl 운용 펀드가 JV 지분 80%,
+Meta가 20%를 보유하며, Morgan Stanley가 주선한 SPV를 통해 <strong>부채 270억 달러 + 지분 25억 달러</strong>가
+조달되었다. 채무는 2049년 만기 완전상각 구조이고 S&P는 A+를 부여했으며 PIMCO가 앵커 대주다.
+xAI 역시 2026년 1월 200억 달러 조달을 지분 75억 달러 + 부채 125억 달러의 SPV 구조로 집행했고,
+SPV가 NVIDIA GPU를 취득해 Colossus 2에 투입하는 형태다.
+</p>
+</section>
+
+<!-- ═══════════════ 3 ═══════════════ -->
+<section>
+<h2><span class="num">03</span> 비용 구조 — 1GW 기준</h2>
+
+<p class="lede">
+AI 데이터센터 비용은 관례적으로 기가와트(GW) 단위로 표현된다. 단, "1GW의 비용"은 추정 주체에
+따라 편차가 크며, 그 편차 자체가 시설 범위(부지·전력 인입·연결성 포함 여부)의 차이를 반영한다.
+아래 네 추정치는 상충이 아니라 <strong>범위 정의의 차이</strong>로 읽어야 한다.
+</p>
+
+<div class="fig">
+  <p class="fig-h">1GW AI 데이터센터 초기 capex 추정치</p>
+  <p class="fig-sub">단위: 10억 달러 · 범위형 추정은 상·하한을 막대 폭으로 표기 · 등급 2차-약(제3자 추정)</p>
+  <div class="bars">
+    <div class="bl">Bernstein</div>
+    <div class="bt"><div class="bf" style="left:0;width:58.3%;background:var(--c-compute)"></div></div>
+    <div class="bv">$35B</div>
+
+    <div class="bl">Epoch AI</div>
+    <div class="bt"><div class="bf" style="left:0;width:63.3%;background:var(--c-compute)"></div></div>
+    <div class="bv">$38B</div>
+
+    <div class="bl">풀빌드 캠퍼스</div>
+    <div class="bt"><div class="bf range" style="left:75%;width:16.7%;background:var(--c-compute)"></div></div>
+    <div class="bv">$45–55B</div>
+
+    <div class="bl">NVIDIA 제시</div>
+    <div class="bt"><div class="bf range" style="left:83.3%;width:16.7%;background:var(--c-compute)"></div></div>
+    <div class="bv">$50–60B</div>
+
+    <div class="axis"><span>0</span><span>15</span><span>30</span><span>45</span><span>60</span></div>
+  </div>
+  <p class="stackfoot">
+    Epoch AI 추정은 초기 capex 380억 달러에 연간 opex 9억 달러를 병기한다. 별도 추정에서 1GW
+    시설의 연간 전력비는 kWh당 0.15달러 가정 시 약 13억 달러다. Bernstein은 자사 추정치를
+    NVIDIA 제시 범위보다 명시적으로 낮게 제시했다.
+  </p>
+</div>
+
+<h3>비용 항목별 분해</h3>
+<p>
+capex의 지배적 항목은 서버이며, 한 추정에서 <strong>약 60%</strong>를 차지한다. 파운드리·메모리·전공정
+장비 업체가 각각 총 capex의 3–4%(1GW당 약 10억–12억 달러)를 가져가고, 공랭·수랭을 합한
+열관리가 약 4%다. opex 측에서는 전력이 총 운영비의 20–30%로 최대 항목이다.
+</p>
+
+<h3>감가상각 — 회계 가정이 곧 이익</h3>
+<p>
+현재 하이퍼스케일러들은 AI 하드웨어를 <strong>4–6년</strong>에 걸쳐 상각한다. Michael Burry는
+실제 교체주기가 2–3년에 가깝다고 주장하며, 상각연한을 단축할 경우 2026–2028년 누적
+감가상각 과소계상이 <strong>약 1,760억 달러</strong>에 달해 보고이익이 20% 이상 과대평가되었다고
+추정했다. NVIDIA는 고객들이 관측된 가동률과 내구성에 근거해 4–6년을 적용한다고 반박했다.
+2020–2024년 기간 대형 기술기업들은 서버 내용연수를 지속적으로 연장했으나, 2025년 들어
+Amazon은 일부 서버의 내용연수를 단축한 반면 Meta는 추가 연장해 방향이 갈렸다.
+</p>
+<p class="stackfoot">
+이 항목은 본 조사에서 <strong>가장 검증이 필요한 영역</strong>이다. 각 사의 10-K 주석에 내용연수
+가정이 명시되어 있으므로 원문 대조로 확정 가능하다.
+</p>
+</section>
+
+<!-- ═══════════════ 4 ═══════════════ -->
+<section>
+<h2><span class="num">04</span> 딜 원장</h2>
+
+<div class="fig">
+  <p class="fig-h">OpenAI 공급자별 약정 규모</p>
+  <p class="fig-sub">단위: 10억 달러 · 계약 기간은 건별 상이(5–8년) · 총합은 §5의 상충 항목 참조</p>
+  <ul class="legend">
+    <li><i style="background:var(--c-compute)"></i>클라우드 · 컴퓨트 구매약정</li>
+    <li><i style="background:var(--c-hardware)"></i>칩 · 하드웨어 공급</li>
+    <li><i style="border:1.5px dashed var(--c-equity)"></i>미실행(LOI 단계 종료)</li>
+  </ul>
+  <div class="bars">
+    <div class="bl">Broadcom</div>
+    <div class="bt"><div class="bf" style="left:0;width:100%;background:var(--c-hardware)"></div></div>
+    <div class="bv">$350B</div>
+
+    <div class="bl">Oracle</div>
+    <div class="bt"><div class="bf" style="left:0;width:85.7%;background:var(--c-compute)"></div></div>
+    <div class="bv">$300B</div>
+
+    <div class="bl">Microsoft</div>
+    <div class="bt"><div class="bf" style="left:0;width:71.4%;background:var(--c-compute)"></div></div>
+    <div class="bv">$250B</div>
+
+    <div class="bl">NVIDIA</div>
+    <div class="bt"><div class="bf ghost" style="left:0;width:28.6%"></div></div>
+    <div class="bv">$100B <em>미실행</em></div>
+
+    <div class="bl">AMD</div>
+    <div class="bt"><div class="bf" style="left:0;width:25.7%;background:var(--c-hardware)"></div></div>
+    <div class="bv">$90B</div>
+
+    <div class="bl">Amazon AWS</div>
+    <div class="bt"><div class="bf" style="left:0;width:10.9%;background:var(--c-compute)"></div></div>
+    <div class="bv">$38B</div>
+
+    <div class="bl">CoreWeave</div>
+    <div class="bt"><div class="bf" style="left:0;width:6.3%;background:var(--c-compute)"></div></div>
+    <div class="bv">$22B</div>
+
+    <div class="axis"><span>0</span><span>100</span><span>200</span><span>300</span><span>350</span></div>
+  </div>
+  <p class="stackfoot">
+    NVIDIA의 1,000억 달러는 구매약정이 아니라 2025년 9월 의향서(LOI)상의 인프라 <em>투자</em>
+    한도였으며, 구속력이 없다고 확인된 뒤 2026년 2월 300억 달러 지분투자로 대체되었다(§5-①).
+    집계표에는 여전히 1,000억 달러로 포함되어 유통되는 경우가 있어 점선으로 구분 표기했다.
+  </p>
+</div>
+
+<div class="fig">
+  <p class="fig-h">2026년 회사채 발행 — AI capex 조달분</p>
+  <p class="fig-sub">단위: 10억 달러 · 2026년 초–7월 초 누계 · 4사 합계 약 1,940억 달러(전년 연간 대비 +79%)</p>
+  <div class="bars">
+    <div class="bl">Amazon</div>
+    <div class="bt"><div class="bf" style="left:0;width:100%;background:var(--c-debt)"></div></div>
+    <div class="bv">~$57B</div>
+
+    <div class="bl">Alphabet</div>
+    <div class="bt"><div class="bf" style="left:0;width:91.2%;background:var(--c-debt)"></div></div>
+    <div class="bv">~$52B</div>
+
+    <div class="bl">Meta</div>
+    <div class="bt"><div class="bf" style="left:0;width:52.6%;background:var(--c-debt)"></div></div>
+    <div class="bv">$30B</div>
+
+    <div class="bl">Oracle</div>
+    <div class="bt"><div class="bf" style="left:0;width:31.6%;background:var(--c-debt)"></div></div>
+    <div class="bv">$18B</div>
+
+    <div class="axis"><span>0</span><span>15</span><span>30</span><span>45</span><span>57</span></div>
+  </div>
+  <p class="stackfoot">
+    Oracle은 2026년 2월 연간 450억–500억 달러 조달 계획을 공표하며, 이 중 절반가량을
+    <strong>단일 투자등급 선순위 무담보채 1회 발행</strong>으로 조달하고 연내 추가 발행은
+    하지 않겠다고 밝혔다. 나머지 절반은 의무전환우선주와 최대 200억 달러 규모 ATM 보통주
+    프로그램으로 충당한다. Morgan Stanley는 2026년 글로벌 AI 관련 채권 발행이 5,700억 달러를
+    넘어 종전 기록의 2배 이상이 될 것으로 전망했다.
+  </p>
+</div>
+
+<div class="tablewrap">
+<table>
+  <thead>
+    <tr>
+      <th>자금 제공</th>
+      <th>수취</th>
+      <th>금액</th>
+      <th>형태</th>
+      <th>시점</th>
+      <th>상태 · 비고</th>
+      <th>등급</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="who">NVIDIA</td><td>OpenAI</td><td class="amt">$30B</td>
+      <td>지분투자</td><td class="dt">2026-02</td>
+      <td>1,100억 달러 라운드의 일부로 집행. 배치 마일스톤과 무연동.</td>
+      <td class="gd"><span class="grade g2">2차-강</span></td>
+    </tr>
+    <tr>
+      <td class="who">Amazon</td><td>OpenAI</td><td class="amt">$50B</td>
+      <td>지분투자</td><td class="dt">2026-02</td>
+      <td>Amazon의 단일 기업 대상 최대 투자로 보도. 동일 라운드.</td>
+      <td class="gd"><span class="grade g3">2차-약</span></td>
+    </tr>
+    <tr>
+      <td class="who">SoftBank</td><td>OpenAI</td><td class="amt">$30B</td>
+      <td>지분투자</td><td class="dt">2026-02</td>
+      <td>동일 라운드. 라운드 최종 마감은 2026년 3월, 총 1,220억 달러·포스트머니 8,520억 달러.</td>
+      <td class="gd"><span class="grade g3">2차-약</span></td>
+    </tr>
+    <tr>
+      <td class="who">Microsoft</td><td>OpenAI</td><td class="amt">27% 지분</td>
+      <td>구조조정 대가</td><td class="dt">2025-10-28</td>
+      <td>영리 전환 완료 시 OpenAI Group PBC 지분 약 27%(당시 평가 약 1,350억 달러) 취득. 종전 32.5%에서 조정. 클라우드 우선매수권 상실, IP 권리는 2032년까지 연장.</td>
+      <td class="gd"><span class="grade g2">2차-강</span></td>
+    </tr>
+    <tr>
+      <td class="who">AMD</td><td>OpenAI</td><td class="amt">1.6억 주 워런트</td>
+      <td>워런트</td><td class="dt">2025-10-06</td>
+      <td>행사가 주당 $0.01. 6GW 배치 및 주가 목표 연동 베스팅. 전량 행사 시 약 10%.</td>
+      <td class="gd"><span class="grade g2">2차-강</span></td>
+    </tr>
+    <tr>
+      <td class="who">NVIDIA</td><td>CoreWeave</td><td class="amt">$2B</td>
+      <td>지분투자</td><td class="dt">2026-01</td>
+      <td>주당 $87.20. 지분율 약 10–13%로 상승.</td>
+      <td class="gd"><span class="grade g3">2차-약</span></td>
+    </tr>
+    <tr>
+      <td class="who">NVIDIA</td><td>CoreWeave</td><td class="amt">$6.3B</td>
+      <td>오프테이크 백스톱</td><td class="dt">2032-04까지</td>
+      <td>미판매 잔여 캐파 매입 약정. NVIDIA 의무는 상한 존재, CoreWeave 채무는 상한 없음.</td>
+      <td class="gd"><span class="grade g2">2차-강</span></td>
+    </tr>
+    <tr>
+      <td class="who">NVIDIA + Microsoft</td><td>Anthropic</td><td class="amt">최대 $15B</td>
+      <td>지분투자</td><td class="dt">2025-11-18</td>
+      <td>NVIDIA 최대 100억, Microsoft 최대 50억. 반대급부로 Anthropic이 Azure 컴퓨트 300억 달러 구매 약정 + 최대 1GW 추가 계약.</td>
+      <td class="gd"><span class="grade g2">2차-강</span></td>
+    </tr>
+    <tr>
+      <td class="who">Blue Owl + PIMCO</td><td>Meta(Hyperion JV)</td><td class="amt">$27B 부채<br>+$2.5B 지분</td>
+      <td>SPV · 사모신용</td><td class="dt">2025-10</td>
+      <td>JV 지분 Blue Owl 80% / Meta 20%. 2049년 만기 완전상각, S&amp;P A+. 루이지애나 2,250에이커.</td>
+      <td class="gd"><span class="grade g2">2차-강</span></td>
+    </tr>
+    <tr>
+      <td class="who">NVIDIA · Cisco 외</td><td>xAI</td><td class="amt">$20B</td>
+      <td>SPV(지분 $7.5B<br>+부채 $12.5B)</td><td class="dt">2026-01</td>
+      <td>SPV가 NVIDIA GPU를 취득해 Colossus 2에 투입. 목표 150억 달러를 초과 달성.</td>
+      <td class="gd"><span class="grade g2">2차-강</span></td>
+    </tr>
+    <tr>
+      <td class="who">Microsoft</td><td>CoreWeave · Nebius · Nscale</td><td class="amt">~$60B</td>
+      <td>컴퓨트 구매약정</td><td class="dt">2025–2026</td>
+      <td>3사 합산 추정. 별도로 IREN과 97억 달러 계약.</td>
+      <td class="gd"><span class="grade g3">2차-약</span></td>
+    </tr>
+    <tr>
+      <td class="who">Meta</td><td>CoreWeave · Nebius</td><td class="amt">$35.2B / 최대 $27B</td>
+      <td>컴퓨트 구매약정</td><td class="dt">2025–2026</td>
+      <td>네오클라우드 백로그의 주요 구성 요소.</td>
+      <td class="gd"><span class="grade g3">2차-약</span></td>
+    </tr>
+    <tr>
+      <td class="who">SpaceX</td><td>xAI</td><td class="amt">합산 $1.25T 평가</td>
+      <td>합병</td><td class="dt">2026-02</td>
+      <td>SpaceX 1조 달러 + xAI 2,500억 달러 평가로 합병. 2026년 6월 12일 주당 135달러로 상장. 궤도 데이터센터 구상은 <strong>비용·구조 미검증</strong>.</td>
+      <td class="gd"><span class="grade g3">2차-약</span></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p class="tfoot">
+등급 <span class="grade g2">2차-강</span> = 기업 보도자료가 존재하고 복수 매체가 동일 수치를 보도한 항목.
+<span class="grade g3">2차-약</span> = 단독 보도, 미공개 소식통 인용, 또는 제3자 집계에 의존한 항목.
+어느 항목도 1차 공시 원문 대조를 거치지 않았다.
+</p>
+</section>
+
+<!-- ═══════════════ 5 ═══════════════ -->
+<section>
+<h2><span class="num">05</span> 상충 수치 및 배제 항목</h2>
+
+<p class="lede">
+조사 과정에서 동일 사안에 대해 서로 다른 금액이 유통되는 사례를 다음과 같이 확인했다.
+이 절은 수치를 인용할 때 반드시 함께 읽어야 한다.
+</p>
+
+<div class="conflicts">
+
+  <div class="conflict">
+    <h4>① NVIDIA → OpenAI <span class="grade g2">2차-강</span></h4>
+    <p>
+      <strong>$100B / $30B / "취소"</strong> 세 가지 서술이 동시에 유통된다. 시계열로 정리하면:
+      2025년 9월 의향서로 "최대 1,000억 달러, 1GW 배치마다 단계적 집행"이 발표되었고,
+      2026년 2월 Jensen Huang이 이를 "약정이 아니었다"고 공개 확인했으며, 같은 달
+      배치 마일스톤과 무관한 300억 달러 지분투자로 대체되어 집행되었다.
+    </p>
+    <p class="verdict">
+      <b>채택:</b> 실제 집행액 $30B(2026-02). $100B는 미실행 LOI로 별도 표기하되 합산에서 제외.
+    </p>
+  </div>
+
+  <div class="conflict">
+    <h4>② Big4 하이퍼스케일러 2026년 capex <span class="grade g3">2차-약</span></h4>
+    <p>
+      <strong>$630B</strong>(2026년 2월 시점 집계, 2025년 3,880억 달러 대비 +62%)과
+      <strong>$725B</strong>(2026년 4월 29일 실적발표 이후 갱신 가이던스 기준, +69~77%)이
+      병존한다. 개별 기업 수치도 시점에 따라 다르다 — 예: Microsoft 1,100–1,200억 달러(초기)
+      대 약 1,900억 달러(갱신), Meta 1,150–1,350억 달러 대 1,250–1,450억 달러.
+    </p>
+    <p class="verdict">
+      <b>채택:</b> 단일 수치를 쓰지 않고 <b>$630–725B 범위</b>로 표기. 확정에는 각 사
+      분기 실적자료 원문이 필요하다.
+    </p>
+  </div>
+
+  <div class="conflict">
+    <h4>③ OpenAI 총 컴퓨트 약정 <span class="grade g3">2차-약</span></h4>
+    <p>
+      <strong>$1.4T</strong>(향후 8년), <strong>$1.15T</strong>(2025–2035년, 7개 벤더 합산),
+      <strong>$750B</strong>(2030년까지 계획 컴퓨트 지출, WSJ 보도) 세 수치가 확인된다.
+      기간·대상 범위가 서로 달라 직접 비교가 불가능하며, $1.4T 계열 집계는 §4에서 지적한
+      NVIDIA 1,000억 달러 미실행분을 포함하는 경우가 있다.
+    </p>
+    <p class="verdict">
+      <b>채택:</b> 총액 단일 수치 미채택. 벤더별 개별 약정(§4 차트)만 사용.
+    </p>
+  </div>
+
+  <div class="conflict">
+    <h4>④ "NVIDIA, 2026년 중 5,400억 달러 파이낸싱 약정 공시" <span class="grade g4">제외</span></h4>
+    <p>
+      검색 요약 단계에서 등장했으나 교차검증에 실패했다. NVIDIA가 제시한 것으로 확인되는
+      수치는 <strong>Blackwell·Rubin 합산 수주잔고 5,000억 달러 이상</strong>(2025–2026년분)이며,
+      이는 파이낸싱 약정이 아니라 제품 수주 규모다. 두 수치가 혼동된 것으로 판단된다.
+    </p>
+    <p class="verdict">
+      <b>조치:</b> 본문에서 배제. 수주잔고 $500B+만 §1 L4에 기재.
+    </p>
+  </div>
+
+</div>
+
+<h3>규제당국의 인식</h3>
+<p>
+국제결제은행(BIS)은 2026년 6월 28일 연차경제보고서에서 AI capex 붕괴, 불투명한 순환금융 거래,
+사상 최고 수준의 국가부채를 세계 금융시스템의 세 가지 압력점으로 지목했다. 특히 지분·부채·공급계약이
+혼합된 순환거래에서 <strong>동일 자산이 복수로 담보 제공될 수 있다</strong>는 점을 지적했다.
+AI 관련 기업에 대한 사모신용 대출은 2010년 약 30억 달러에서 2025년 400억 달러 이상으로 증가했다.
+</p>
+</section>
+
+<!-- ═══════════════ 6 ═══════════════ -->
+<section>
+<h2><span class="num">06</span> 1차 출처 검증 체크리스트</h2>
+
+<p class="lede">
+아래 항목은 네트워크 접근이 가능한 환경에서 원문 대조로 확정할 수 있다. 우선순위 순.
+</p>
+
+<ul class="checklist">
+  <li><b>감가상각 내용연수</b> — Microsoft·Alphabet·Amazon·Meta·Oracle 각 사 10-K 주석의 서버·네트워크 장비 내용연수 가정 및 최근 변경 이력. §3의 1,760억 달러 추정을 직접 검증할 수 있는 유일한 경로.</li>
+  <li><b>NVIDIA 지분투자 잔액</b> — 10-Q의 비시장성 지분증권(non-marketable equity securities) 항목. §2의 990억 달러 평가액 대조.</li>
+  <li><b>CoreWeave RPO 및 담보 구조</b> — 10-Q의 잔여이행의무 금액, GPU 담보 차입의 커버넌트 조항, NVIDIA 백스톱 계약의 8-K 또는 계약 원문 첨부.</li>
+  <li><b>AMD 워런트</b> — 2025년 10월 6일자 8-K 원문. 주식수·행사가·베스팅 조건 및 회계처리 방식.</li>
+  <li><b>Meta Hyperion JV 연결 여부</b> — 10-K의 변동이익실체(VIE) 주석. 지분 20%인 JV를 연결하는지, Meta의 잔여가치보증 규모가 얼마인지.</li>
+  <li><b>Oracle 채권 조건</b> — FWP 및 424B 서류의 트랜치별 만기·쿠폰·스프레드. 조달 계획 450억–500억 달러의 실제 집행 내역.</li>
+  <li><b>OpenAI 벤더 약정</b> — OpenAI는 비상장으로 공시 의무가 없다. 상대방인 Oracle·Microsoft·AMD·Broadcom의 RPO 주석에서 <strong>역방향</strong>으로 확인하는 것이 유일한 1차 경로.</li>
+  <li><b>TSMC capex 및 CoWoS 캐파</b> — 분기 실적발표 자료(20-F 병행). 600–640억 달러 상향 및 후공정 배분 비율.</li>
+</ul>
+
+<p style="margin-top:20px">
+OpenAI·SpaceX·xAI·Anthropic은 모두 비상장으로 정기공시 의무가 없다. 이들 기업의 금액은
+<strong>구조적으로 1차 검증이 불가능</strong>하며, 상장 거래상대방의 공시에서 역추적하거나
+Form D(사모 발행 신고) 수준의 제한된 정보에 의존해야 한다. 이는 본 조사의 한계가 아니라
+대상 자체의 성질이다.
+</p>
+</section>
+
+<!-- ═══════════════ Sources ═══════════════ -->
+<section>
+<h2><span class="num">07</span> 참조 출처</h2>
+<ol class="srcs">
+  <li><a href="https://www.cnbc.com/2026/09/04/nvidia-ai-investments-99-billion.html">CNBC — Nvidia's investments grow to $99 billion (2026-09-04)</a></li>
+  <li><a href="https://www.cnbc.com/2026/02/19/nvidia-is-in-talks-to-invest-up-to-30-billion-in-openai-source-says.html">CNBC — Nvidia in talks to invest up to $30B in OpenAI (2026-02-19)</a></li>
+  <li><a href="https://fortune.com/2026/02/02/jensen-huang-nvidia-ceo-on-openai-investment-never-a-commitment/">Fortune — Huang: $100B pledge 'never a commitment' (2026-02-02)</a></li>
+  <li><a href="https://www.cnbc.com/2026/02/27/open-ai-funding-round-amazon.html">CNBC — OpenAI $110B round with Amazon, Nvidia, SoftBank (2026-02-27)</a></li>
+  <li><a href="https://www.cnbc.com/2026/03/31/openai-funding-round-ipo.html">CNBC — OpenAI closes round at $852B valuation (2026-03-31)</a></li>
+  <li><a href="https://www.cnbc.com/2025/10/28/open-ai-for-profit-microsoft.html">CNBC — OpenAI restructure, Microsoft 27% (2025-10-28)</a></li>
+  <li><a href="https://www.datacenterdynamics.com/en/news/openai-completes-for-profit-move-microsoft-given-27-stake-and-250bn-azure-contract-but-no-longer-has-cloud-right-of-first-refusal/">DCD — Microsoft 27% stake, $250B Azure contract</a></li>
+  <li><a href="https://www.cnbc.com/2025/10/06/openai-amd-chip-deal-ai.html">CNBC — OpenAI/AMD 6GW deal, 10% stake (2025-10-06)</a></li>
+  <li><a href="https://www.tomshardware.com/pc-components/gpus/openai-signs-6gw-amd-gpu-deal">Tom's Hardware — AMD warrant, 160M shares at $0.01</a></li>
+  <li><a href="https://www.cnbc.com/2025/10/13/openai-partners-with-broadcom-custom-ai-chips-alongside-nvidia-amd.html">CNBC — OpenAI/Broadcom 10GW custom accelerators (2025-10-13)</a></li>
+  <li><a href="https://www.cnbc.com/2025/11/03/open-ai-amazon-aws-cloud-deal.html">CNBC — OpenAI/AWS $38B, 7-year deal (2025-11-03)</a></li>
+  <li><a href="https://blogs.microsoft.com/blog/2025/11/18/microsoft-nvidia-and-anthropic-announce-strategic-partnerships/">Microsoft — MSFT/NVIDIA/Anthropic partnerships (2025-11-18)</a></li>
+  <li><a href="https://www.bisnow.com/national/news/data-center-capital-markets/meta-pushes-its-largest-data-center-project-off-its-books-with-27b-joint-venture-131490">Bisnow — Meta $27B Hyperion JV off balance sheet</a></li>
+  <li><a href="https://pe-insights.com/blue-owl-and-meta-close-record-30bn-financing-for-ai-data-centre-expansion-in-louisiana/">PE Insights — Blue Owl/Meta $27B debt + $2.5B equity, 2049 maturity, S&amp;P A+</a></li>
+  <li><a href="https://www.oracle.com/news/announcement/oracle-announces-equity-and-debt-financing-plan-2026-02-01/">Oracle — 2026 equity and debt financing plan (2026-02-01)</a></li>
+  <li><a href="https://www.constellationr.com/insights/news/oracle-raise-45-billion-50-billion-debt-equity-data-center-buildout">Constellation Research — Oracle $45–50B raise</a></li>
+  <li><a href="https://cryptobriefing.com/tech-giants-record-159b-bonds-ai/">Crypto Briefing — hyperscaler record bond issuance</a></li>
+  <li><a href="https://www.cnbc.com/2026/02/23/big-techs-ai-bond-binge-shatters-unspoken-contract-with-investors.html">CNBC — Big Tech's AI bond binge (2026-02-23)</a></li>
+  <li><a href="https://mycroftproject.substack.com/p/nvidia-circular-financing-coreweave-backstop">Mycroft — NVIDIA $6.3B CoreWeave backstop</a></li>
+  <li><a href="https://qz.com/gpu-collateralized-debt-ai-neocloud-coreweave-financing-risks-050526">Quartz — GPU-collateralized debt explained</a></li>
+  <li><a href="https://www.cnbc.com/2026/01/06/elon-musk-xai-raises-20-billion-from-nvidia-cisco-investors.html">CNBC — xAI raises $20B (2026-01-06)</a></li>
+  <li><a href="https://www.cnbc.com/2026/02/03/musk-xai-spacex-biggest-merger-ever.html">CNBC — xAI/SpaceX merger, $1.25T (2026-02-03)</a></li>
+  <li><a href="https://epoch.ai/data-insights/ai-datacenter-cost-breakdown">Epoch AI — TCO of a 1GW AI data center</a></li>
+  <li><a href="https://www.investing.com/news/stock-market-news/how-much-does-a-gw-of-data-center-capacity-actually-cost-4314046">Investing.com — Bernstein ~$35B/GW vs NVIDIA $50–60B</a></li>
+  <li><a href="https://techcrunch.com/2026/04/27/data-center-demand-drives-66-surge-in-natural-gas-power-plant-costs/">TechCrunch — gas turbine costs +195% vs 2019 (2026-04-27)</a></li>
+  <li><a href="https://www.cnbc.com/2025/11/14/ai-gpu-depreciation-coreweave-nvidia-michael-burry.html">CNBC — GPU depreciation debate (2025-11-14)</a></li>
+  <li><a href="https://natlawreview.com/article/deep-quarry-useful-lives-gpus-key-considerations">National Law Review — useful lives of GPUs, $176B estimate</a></li>
+  <li><a href="https://www.aiexpert.news/en/ticker/tsmc-raises-2026-capex-to-60-64b-cowos-advanced-packaging-becomes-ai-supply-chai">AI Expert — TSMC 2026 capex $60–64B, CoWoS bottleneck</a></li>
+  <li><a href="https://www.marktechpost.com/2026/08/23/best-gpu-neoclouds-2026/">MarkTechPost — neocloud pricing and contracted power (2026-08-23)</a></li>
+  <li><a href="https://marketwise.com/investing/coreweaves-55-billion-backlog-marks-the-next-phase-of-the-neocloud-boom/">MarketWise — CoreWeave backlog and Meta contract</a></li>
+  <li><a href="https://www.tftc.io/bis-annual-report-2026-ai-bubble-circular-financing-sovereign-debt">TFTC — BIS Annual Report 2026 on circular financing</a></li>
+  <li><a href="https://structuredfinance.org/wp-content/uploads/2026/07/SFA-Research-Corner_How-Data-Center-ABS-and-CMBS-Fit-in-a-Broader-Financing-Ecosystem.pdf">SFA Research — data center ABS/CMBS issuance (2026-07-23)</a></li>
+  <li><a href="https://finance.yahoo.com/technology/ai/articles/nvidia-500-billion-ai-chip-111000728.html">Yahoo Finance — NVIDIA $500B Blackwell/Rubin bookings</a></li>
+  <li><a href="https://www.networkworld.com/article/4113772/samsung-warns-of-memory-shortages-driving-industry-wide-price-surge-in-2026.html">Network World — memory shortage and 2026 price surge</a></li>
+  <li><a href="https://futurumgroup.com/insights/ai-capex-2026-the-690b-infrastructure-sprint/">Futurum — 2026 AI capex estimates</a></li>
+  <li><a href="https://datacenterrichness.substack.com/p/hyperscalers-plan-630-billion-in">Data Center Richness — Big Four $630B 2026 capex</a></li>
+  <li><a href="https://www.tomshardware.com/tech-industry/big-tech/big-techs-ai-spending-plans-reach-725-billion">Tom's Hardware — $725B capex figure</a></li>
+</ol>
+</section>
+
+<footer>
+본 문서는 공개 검색 데이터를 기반으로 작성된 정량 참고자료이며 <strong>투자 자문이 아니다</strong>.
+1차 공시 원문 대조를 거친 항목은 없다(§검증 한계 고지). 수치 인용 시 §5의 상충 항목과
+§6의 검증 체크리스트를 함께 확인할 것.<br>
+조사 기준일 2026-09-14 · 글로벌 위험 감시 리서치 노트
+</footer>
+
+</div>
