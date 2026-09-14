@@ -432,6 +432,98 @@ code, .mono { font-family: var(--ff-mono); font-size: 0.88em; }
   font-variant-numeric: tabular-nums;
 }
 
+/* ── Flow graph ───────────────────────────────── */
+
+.glegends { display: flex; flex-wrap: wrap; gap: 2px 30px; margin-bottom: 12px; }
+.glegends .legend { margin-bottom: 0; }
+
+.legend .eline {
+  width: 18px; height: 2px; flex: none; display: block;
+  border: 0; border-radius: 1px;
+}
+.legend .eline.dashed {
+  background: repeating-linear-gradient(to right,
+    var(--muted) 0 4px, transparent 4px 8px) !important;
+}
+
+.gwrap {
+  overflow-x: auto;
+  border: 1px solid var(--hairline-2);
+  background: var(--surface-2);
+  border-radius: 2px;
+}
+
+#flowgraph { display: block; width: 100%; min-width: 640px; height: auto; }
+
+#flowgraph .lk { fill: none; stroke-linecap: round; transition: opacity .18s ease; }
+#flowgraph .nd { cursor: pointer; transition: opacity .18s ease; }
+#flowgraph .nd circle { stroke: var(--surface-2); stroke-width: 2; }
+#flowgraph .nd text {
+  paint-order: stroke;
+  stroke: var(--surface-2);
+  stroke-width: 3.5px;
+  stroke-linejoin: round;
+  font-family: var(--ff-display);
+  font-size: 12.5px;
+  font-weight: 600;
+  fill: var(--ink);
+  text-anchor: middle;
+  pointer-events: none;
+}
+#flowgraph .nd .sub {
+  font-family: var(--ff-mono);
+  font-size: 9.5px;
+  font-weight: 400;
+  fill: var(--muted);
+}
+#flowgraph .lbl {
+  paint-order: stroke;
+  stroke: var(--surface-2);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  font-family: var(--ff-mono);
+  font-size: 9.5px;
+  fill: var(--muted);
+  text-anchor: middle;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .18s ease;
+}
+#flowgraph .lbl.on { opacity: 1; }
+#flowgraph .lk { cursor: crosshair; }
+#flowgraph .dim { opacity: 0.08; }
+#flowgraph .nd.dim text, #flowgraph .nd.dim circle { opacity: 1; }
+
+.gctl { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+
+.gbtn {
+  font-family: var(--ff-mono);
+  font-size: 11.5px;
+  color: var(--ink-2);
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+  border-radius: 3px;
+  padding: 6px 11px;
+  cursor: pointer;
+  line-height: 1.3;
+  transition: background .15s ease, border-color .15s ease;
+}
+.gbtn:hover { border-color: var(--accent); }
+.gbtn[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.gcap {
+  font-family: var(--ff-mono);
+  font-size: 11.5px;
+  color: var(--muted);
+  margin: 10px 0 0;
+  line-height: 1.6;
+  max-width: none;
+}
+
 /* ── Tables ───────────────────────────────────── */
 
 .tablewrap {
@@ -983,7 +1075,271 @@ Amazon은 일부 서버의 내용연수를 단축한 반면 Meta는 추가 연�
 
 <!-- ═══════════════ 5 ═══════════════ -->
 <section>
-<h2><span class="num">05</span> 상충 수치 및 배제 항목</h2>
+<h2><span class="num">05</span> 조달한 부채는 어디에 쓰였나</h2>
+
+<p class="lede">
+결론부터: <strong>공모 회사채의 자금 용도는 추적이 원천적으로 불가능하다.</strong> 4사 모두
+증권신고서상 자금사용목적을 "일반 기업 목적(general corporate purposes)"으로 기재했기 때문이다.
+반면 부외 구조(SPV·담보부 대출)는 용도가 단일 자산으로 특정된다. 추적 가능성과 레버리지
+가시성은 반비례한다.
+</p>
+
+<div class="tablewrap">
+<table>
+  <thead>
+    <tr>
+      <th>조달 주체</th>
+      <th>구조</th>
+      <th>규모</th>
+      <th>기재된 자금사용목적</th>
+      <th>용도 특정성</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="who">Oracle</td><td>공모 선순위 무담보채</td><td class="amt">$25B</td>
+      <td>ATM 프로그램 기준 "일반 기업 목적 — capex, 차입금 상환, 향후 투자·인수, <strong>현금배당 및 자사주 매입 포함 가능</strong>"</td>
+      <td><span class="grade g4">불특정</span></td>
+    </tr>
+    <tr>
+      <td class="who">Alphabet</td><td>공모채</td><td class="amt">$25B<br><em>(누계 ~$52B)</em></td>
+      <td>"일반 기업 목적 — <strong>AI 인프라 및 글로벌 컴퓨트 확장을 위한 capex 포함</strong>". 4사 중 AI 용도를 가장 명시적으로 기재.</td>
+      <td><span class="grade g2">부분 특정</span></td>
+    </tr>
+    <tr>
+      <td class="who">Amazon</td><td>공모채</td><td class="amt">$25B<br><em>(누계 ~$57B)</em></td>
+      <td>"일반 기업 목적 — 투자 지원, 향후 capex 자금, <strong>차입금 상환</strong> 포함 가능". 2026년 추가 발행 없음을 선언.</td>
+      <td><span class="grade g4">불특정</span></td>
+    </tr>
+    <tr>
+      <td class="who">Meta</td><td>공모채 6개 트랜치<br>(5–40년)</td><td class="amt">$30B</td>
+      <td>"일반 기업 목적". 특정 용도 배분 없음. 경영진은 AI·데이터센터 capex 자금을 장기화(term out)하는 것이라고 투자자에게 설명.</td>
+      <td><span class="grade g4">불특정</span></td>
+    </tr>
+    <tr>
+      <td class="who">Blue Owl · PIMCO</td><td>SPV(Hyperion JV)</td><td class="amt">$27B</td>
+      <td>루이지애나 Hyperion 데이터센터 <strong>단일 자산</strong> 개발. 2049년 만기 완전상각.</td>
+      <td><span class="grade g1">완전 특정</span></td>
+    </tr>
+    <tr>
+      <td class="who">Valor 등</td><td>SPV(xAI)</td><td class="amt">$12.5B</td>
+      <td>SPV가 <strong>NVIDIA GPU를 취득</strong>해 Colossus 2에 투입. 용도 단일.</td>
+      <td><span class="grade g1">완전 특정</span></td>
+    </tr>
+    <tr>
+      <td class="who">대주단</td><td>CoreWeave 자본구조</td><td class="amt">$8.5B + $3.1B<br>+ $2.6B</td>
+      <td>비소구 투자등급 지연인출 텀론 85억, <strong>GPU 담보 대출</strong> 31억 + 26억(신규). 담보물이 곧 용도.</td>
+      <td><span class="grade g1">완전 특정</span></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p class="tfoot">
+자금사용목적 문구는 검색으로 확인한 2차 인용이다. 원문은 각 사의 424B5·FWP 서류에 있으며 §09 체크리스트 참조.
+</p>
+
+<h3>capex 대비 부채 조달 비중</h3>
+<p>
+개별 채권의 용도는 불특정하지만, <strong>총량 수준에서는 추적이 가능하다.</strong> 2025년
+5대 하이퍼스케일러의 채권 발행액은 합산 <strong>1,360억 달러</strong>로 같은 해 capex의
+약 <strong>3분의 1</strong>을 조달했다. 2026년 상반기에만 발행액이 약 2,000억 달러로 증가했다.
+</p>
+<p>
+더 중요한 것은 임계점이다. Epoch AI 추정에 따르면 하이퍼스케일러 합산 영업현금흐름은 연 23%
+증가하는 반면 현금 capex는 연 70% 증가해, <strong>합산 잉여현금흐름이 2026년 3분기경 0에 도달</strong>한다.
+기업별로는 Oracle이 이미 교차했고, Amazon이 현재 교차 중이며, Alphabet은 2027년 1분기,
+Meta는 2027년 3분기, Microsoft는 2028년 3분기로 추정된다.
+</p>
+<p>
+이 시점 이후 capex 증분은 정의상 전액 외부 조달(부채·주식·현금성자산 소진)로 충당된다.
+즉 <strong>2026년 하반기부터 AI capex의 한계 자금원은 영업현금흐름이 아니라 자본시장</strong>이다.
+</p>
+</section>
+
+<!-- ═══════════════ 6 ═══════════════ -->
+<section>
+<h2><span class="num">06</span> 순환거래는 얼마나 되고, 매출에 어떤 영향을 주는가</h2>
+
+<p class="lede">
+이 절이 본 조사의 핵심 질문이다. 결론을 먼저 제시하면: <strong>순환거래 비중을 공시 데이터로
+정확히 산출하는 것은 불가능하며</strong>, 산출 가능한 것은 상·하한 프록시뿐이다. 그리고
+확인 가능한 범위에서 "칩메이커 매출의 대부분이 순환적"이라는 주장은 지지되지 않는다.
+</p>
+
+<h3>왜 정확한 산출이 불가능한가 — 분모·분자 문제</h3>
+<p>
+"순환거래 총액 8,000억 달러 이상"이라는 수치가 널리 인용된다. 그러나 이는
+<strong>다년 약정 총액(스톡)</strong>이고, 매출은 <strong>연간 플로우</strong>다. 두 값의
+직접 비교는 성립하지 않는다. 예컨대 OpenAI–Oracle 3,000억 달러는 2027년 개시 5년 계약이므로
+어떤 단일 연도 매출과도 대응하지 않는다.
+</p>
+<p>
+더 결정적인 제약은 NVIDIA의 공시 구조다. NVIDIA는 10-K에서 <strong>직접고객(direct customer)</strong>을
+AIB·유통사·ODM·OEM·CSP·AI 모델기업·시스템 통합업체로 정의하고, <strong>간접고객(indirect customer)</strong>을
+직접고객을 통해 구매하는 CSP·네오클라우드·모델기업 등으로 별도 정의한다. FY2026 기준 직접고객
+1곳이 매출의 22%, 다른 1곳이 14%(합산 36%)를 차지했으나, <strong>이 두 곳이 AI 모델기업인지
+OEM인지는 공시되지 않는다.</strong> NVIDIA는 별도로 "간접고객 중 개별적으로 매출의 10% 이상을
+차지하는 것으로 추정되는 곳이 있다"고만 기재한다. 따라서 <strong>NVIDIA가 지분을 보유한 기업들이
+NVIDIA 매출에서 차지하는 비중은 공시되지 않으며, 외부에서 산출할 수 없다.</strong>
+</p>
+
+<h3>산출 가능한 상한 프록시</h3>
+
+<div class="fig">
+  <p class="fig-h">NVIDIA — 자사 자금이 수요로 재순환될 수 있는 최대 한도</p>
+  <p class="fig-sub">FY2026 기준 · 단위: 10억 달러 · 상한 프록시이며 실제 순환액이 아님</p>
+  <div class="bars">
+    <div class="bl">FY2026 총매출</div>
+    <div class="bt"><div class="bf" style="left:0;width:100%;background:var(--c-compute)"></div></div>
+    <div class="bv">$215.9B</div>
+
+    <div class="bl">데이터센터</div>
+    <div class="bt"><div class="bf" style="left:0;width:91.4%;background:var(--c-compute)"></div></div>
+    <div class="bv">$197.3B</div>
+
+    <div class="bl">2026년 지분투자<br>약정액</div>
+    <div class="bt"><div class="bf" style="left:0;width:18.5%;background:var(--c-equity)"></div></div>
+    <div class="bv">~$40B <em>18.5%</em></div>
+
+    <div class="bl">└ OpenAI분</div>
+    <div class="bt"><div class="bf" style="left:0;width:13.9%;background:var(--c-equity)"></div></div>
+    <div class="bv">$30B <em>13.9%</em></div>
+
+    <div class="axis"><span>0</span><span>54</span><span>108</span><span>162</span><span>216</span></div>
+  </div>
+  <p class="stackfoot">
+    18.5%는 <strong>"NVIDIA가 2026년에 집행한 지분투자 전액이 같은 해 자사 매출로 전환되었다고
+    가정할 경우"의 상한</strong>이다. 실제 전환율은 공시되지 않으며, 투자금이 데이터센터 건설·전력·
+    인건비·타사 부품에도 배분되므로 실제 비중은 이보다 낮다. 지분투자 <em>평가액</em> 990억 달러
+    (2026-07-26)를 매출과 비교하는 계산은 스톡과 플로우를 혼동한 것이므로 사용해서는 안 된다.
+  </p>
+</div>
+
+<h3>가장 명확한 순환 사례 — CoreWeave</h3>
+<p>
+구조가 완결적으로 관측되는 유일한 사례다. NVIDIA가 지분 10–13%를 보유하고 63억 달러 규모의
+잔여 캐파 매입을 약정한 상태에서, CoreWeave는 2026년 1분기에만 유형자산에
+<strong>77억 달러</strong>를 지출했다(대부분 NVIDIA 시스템). 조달 측은 부채다 — 2025년 12월
+146억 달러였던 총부채가 2026년 1분기 말 173억 달러, 2분기 말 약 <strong>350억 달러</strong>로 증가했다.
+</p>
+<p>
+이 구조의 비용은 손익계산서에 직접 나타난다. 2026년 2분기 이자비용은 <strong>6억 4,000만 달러</strong>로,
+같은 분기 매출 25.75억 달러의 <strong>약 24.9%</strong>에 해당한다. 1분기에는 이자비용 5억 3,600만 달러
+대 매출 20.78억 달러로 약 25.8%였다. <strong>매출의 4분의 1이 이자로 나간다.</strong>
+</p>
+<p>
+수요 측 집중도도 극단적이다. FY2025 매출의 약 <strong>67%</strong>가 Microsoft 한 곳에서 나왔다.
+백로그는 994억 달러(2026-03 기준)로 다변화되고 있으나, 그 구성 역시 OpenAI·Meta·Microsoft·NVIDIA로
+소수에 집중되어 있다.
+</p>
+
+<h3>Oracle — 순환이 신용등급으로 나타난 사례</h3>
+<p>
+Oracle의 FY2026 잔여이행의무(RPO)는 <strong>6,380억 달러</strong>로 전년 대비 363% 증가했다.
+S&amp;P 분석에 따르면 이 중 <strong>약 절반이 OpenAI</strong>에서 나온다. Oracle은 전체 RPO의
+약 12%만 향후 12개월 내 매출로 전환되고, 이후 24개월에 추가 34%가 전환될 것으로 안내한다.
+</p>
+<p>
+2026년 7월 9일 S&amp;P는 Oracle의 장기 발행자 신용등급을 <strong>BBB에서 BBB−로 강등</strong>하고
+OpenAI 의존을 취약 요인으로 명시했다. 이는 순환거래가 추상적 위험이 아니라
+<strong>이미 자본비용으로 실현되었음</strong>을 보여주는 유일한 관측치다.
+</p>
+
+<h3>반대 증거 — 순환이 아니라 레버리지 전가</h3>
+<p>
+"칩메이커 매출의 약 100%가 순환적"이라는 Michael Burry의 주장이 널리 인용된다. 그러나 이는
+근거가 공개되지 않은 개인 주장이며, 확인 가능한 데이터와 정합하지 않는다.
+</p>
+<p>
+NVIDIA 매출의 최대 수요처는 하이퍼스케일러 4사이고, 이들의 2026년 capex 6,300억–7,250억 달러는
+자체 영업현금흐름과 <strong>공모 회사채</strong>로 조달된다(§05). 2025년 기준 채권이 capex의 약 3분의 1,
+나머지는 영업현금흐름이다. NVIDIA의 2026년 지분투자 약정 400억 달러는 이 규모에 비해 작다.
+</p>
+<p class="verdict" style="font-family:var(--ff-mono);font-size:13.5px;background:var(--surface);border:1px solid var(--hairline);border-left:3px solid var(--accent);padding:14px 16px;max-width:none">
+<strong>판정:</strong> 현재 구조의 본질은 순환(circular)이 아니라 <strong>레버리지 전가(leverage transfer)</strong>다.
+자금의 원천은 칩 제조사의 대차대조표가 아니라 회사채·사모신용 투자자이며, 순환 고리는 그 자금의
+<strong>회전 속도를 높이고 최종 위험 귀속을 불투명하게 만드는 장치</strong>로 작동한다.
+BIS가 2026년 연차보고서에서 지적한 "동일 자산의 복수 담보 제공" 위험이 정확히 이 지점이다.
+</p>
+
+<h3>매출에 미치는 영향 — 세 가지 경로</h3>
+<p>
+① <strong>인식 시점의 전진</strong> — 다년 약정이 RPO로 계상되어 수요가 확정된 것처럼 보이나,
+Oracle 사례처럼 12개월 내 매출 전환율은 12%에 불과하다. 백로그와 매출의 간극이 위험의 저장소다.
+</p>
+<p>
+② <strong>이익의 질 저하</strong> — CoreWeave처럼 매출의 25%가 이자로 나가는 구조에서는
+매출 성장률(+112% YoY)과 현금창출력이 괴리된다. 여기에 §03의 감가상각 연한 가정이 겹치면
+보고이익의 신뢰구간은 더 넓어진다.
+</p>
+<p>
+③ <strong>집중도 위험의 연쇄</strong> — Oracle RPO의 절반이 OpenAI, CoreWeave 매출의 67%가
+Microsoft, NVIDIA 직접고객 상위 2곳이 36%. 한 노드의 약정 취소가 밸류체인을 따라 전파되는
+구조이며, 이미 Oracle 신용등급에서 가격이 매겨지기 시작했다.
+</p>
+</section>
+
+<!-- ═══════════════ 7 ═══════════════ -->
+<section>
+<h2><span class="num">07</span> 자금 흐름 그래프</h2>
+
+<p class="lede">
+방향성 그래프. 화살표는 <strong>자금이 이동하는 방향</strong>을 가리킨다. 노드를 클릭하면 해당
+노드의 유입·유출만 남고, 하단 버튼은 확인된 순환 고리 세 개를 각각 강조한다. 금액은 간선에
+마우스를 올리거나 노드·고리를 선택하면 표시된다. <strong>회색 점선은 거래는 확인되나 금액이
+공시되지 않은 간선</strong>이며, 그래프에서 가장 중요한 정보는 이 점선들이 어디에 놓여 있는지다 —
+고리가 닫히는 지점마다 점선이 있다.
+</p>
+
+<div class="fig" id="graphfig">
+  <p class="fig-h">AI 인프라 자금 순환 구조</p>
+  <p class="fig-sub">노드 색 = 밸류체인 위치 · 간선 색 = 자금 형태 · 단위: 10억 달러 · 등급 2차</p>
+
+  <div class="glegends">
+    <ul class="legend">
+      <li><i style="background:var(--c-hardware)"></i>칩 · 시스템</li>
+      <li><i style="background:var(--c-compute)"></i>클라우드 · 네오클라우드</li>
+      <li><i style="background:var(--c-equity)"></i>모델랩</li>
+      <li><i style="background:var(--c-debt)"></i>자본시장</li>
+    </ul>
+    <ul class="legend">
+      <li><span class="eline" style="background:var(--c-equity)"></span>지분 · 워런트</li>
+      <li><span class="eline" style="background:var(--c-compute)"></span>구매약정</li>
+      <li><span class="eline" style="background:var(--c-debt)"></span>부채 조달</li>
+      <li><span class="eline dashed"></span>금액 미공시</li>
+    </ul>
+  </div>
+
+  <div class="gwrap">
+    <svg id="flowgraph" viewBox="0 0 1000 700" role="img" aria-label="AI 인프라 기업 간 자금 흐름 방향성 그래프"></svg>
+  </div>
+
+  <div class="gctl">
+    <button type="button" class="gbtn" data-cycle="all" id="gb-all">전체 보기</button>
+    <button type="button" class="gbtn" data-cycle="a">고리 A · NVIDIA → OpenAI → Oracle</button>
+    <button type="button" class="gbtn" data-cycle="b">고리 B · NVIDIA → CoreWeave</button>
+    <button type="button" class="gbtn" data-cycle="c">고리 C · Microsoft → Anthropic</button>
+    <button type="button" class="gbtn" data-cycle="d">부채 유입 경로</button>
+  </div>
+  <p class="gcap" id="gcap">간선에 마우스를 올리면 금액이 표시된다. 노드를 클릭하면 그 노드의 유입·유출만 남는다. 다시 클릭하면 해제.</p>
+</div>
+
+<h3>그래프에서 읽히는 것</h3>
+<p>
+<strong>고리 A</strong>(NVIDIA 300억 달러 지분 → OpenAI → Oracle 3,000억 달러 구매약정 → Oracle의
+NVIDIA GPU 발주)는 가장 많이 인용되는 순환이지만, 마지막 간선의 금액이 공시되지 않아
+<strong>고리가 닫히는 크기를 확인할 수 없다.</strong> 고리 B(NVIDIA ↔ CoreWeave)만이 지분·백스톱·
+설비투자액이 모두 관측되는 유일한 폐곡선이다.
+</p>
+<p>
+그래프 좌측의 자본시장 노드에서 나오는 굵은 실선들이 실제 자금 원천이다. 순환 고리들은 그
+자금이 밸류체인 안에서 몇 번 회전하는지를 보여줄 뿐, 자금을 창출하지 않는다.
+</p>
+</section>
+
+<!-- ═══════════════ 8 ═══════════════ -->
+<section>
+<h2><span class="num">08</span> 상충 수치 및 배제 항목</h2>
 
 <p class="lede">
 조사 과정에서 동일 사안에 대해 서로 다른 금액이 유통되는 사례를 다음과 같이 확인했다.
@@ -1040,7 +1396,33 @@ Amazon은 일부 서버의 내용연수를 단축한 반면 Meta는 추가 연�
       이는 파이낸싱 약정이 아니라 제품 수주 규모다. 두 수치가 혼동된 것으로 판단된다.
     </p>
     <p class="verdict">
-      <b>조치:</b> 본문에서 배제. 수주잔고 $500B+만 §1 L4에 기재.
+      <b>조치:</b> 본문에서 배제. 수주잔고 $500B+만 §01 L4에 기재.
+    </p>
+  </div>
+
+  <div class="conflict">
+    <h4>⑤ Meta → CoreWeave 계약 규모 <span class="grade g3">2차-약</span></h4>
+    <p>
+      <strong>$14B / $21B / $35.2B</strong> 세 수치가 유통된다. 2026년 3월 체결된 210억 달러
+      커밋먼트를 별도 건으로 보는 서술과, 누계 352억 달러로 보는 서술이 병존한다. 증분 계약과
+      누계를 구분하지 않은 집계로 판단되나 확정할 수 없다.
+    </p>
+    <p class="verdict">
+      <b>채택:</b> 딜 원장에 범위로 표기. 그래프에서는 2026-03 증분 $21B을 사용.
+    </p>
+  </div>
+
+  <div class="conflict">
+    <h4>⑥ NVIDIA 고객 집중도 — 36% 대 61% <span class="grade g2">2차-강</span></h4>
+    <p>
+      <strong>FY2026 연간</strong> 기준은 직접고객 2곳이 각각 22%·14%로 합산 36%(약 777억 달러)다.
+      <strong>FY2026 3분기</strong> 기준은 매출 10% 초과 직접고객이 4곳으로 각각 22%·15%·13%·11%,
+      합산 61%(분기 매출 570억 달러 기준)다. 상충이 아니라 <strong>연간 대 분기</strong>의 차이이며,
+      분기 집중도가 연간보다 높다는 것은 집중도가 심화 중임을 시사한다.
+    </p>
+    <p class="verdict">
+      <b>채택:</b> 두 수치 병기, 기간을 반드시 명시. 어느 쪽도 최종 수요처(간접고객) 구성을
+      알려주지 않는다는 점이 더 중요하다(§06).
     </p>
   </div>
 
@@ -1057,7 +1439,7 @@ AI 관련 기업에 대한 사모신용 대출은 2010년 약 30억 달러에서
 
 <!-- ═══════════════ 6 ═══════════════ -->
 <section>
-<h2><span class="num">06</span> 1차 출처 검증 체크리스트</h2>
+<h2><span class="num">09</span> 1차 출처 검증 체크리스트</h2>
 
 <p class="lede">
 아래 항목은 네트워크 접근이 가능한 환경에서 원문 대조로 확정할 수 있다. 우선순위 순.
@@ -1072,6 +1454,10 @@ AI 관련 기업에 대한 사모신용 대출은 2010년 약 30억 달러에서
   <li><b>Oracle 채권 조건</b> — FWP 및 424B 서류의 트랜치별 만기·쿠폰·스프레드. 조달 계획 450억–500억 달러의 실제 집행 내역.</li>
   <li><b>OpenAI 벤더 약정</b> — OpenAI는 비상장으로 공시 의무가 없다. 상대방인 Oracle·Microsoft·AMD·Broadcom의 RPO 주석에서 <strong>역방향</strong>으로 확인하는 것이 유일한 1차 경로.</li>
   <li><b>TSMC capex 및 CoWoS 캐파</b> — 분기 실적발표 자료(20-F 병행). 600–640억 달러 상향 및 후공정 배분 비율.</li>
+  <li><b>채권 자금사용목적 원문</b> — Oracle·Alphabet·Amazon·Meta의 424B5 및 FWP "Use of Proceeds" 항목. §05의 문구 인용이 정확한지, Oracle ATM의 자사주·배당 포함 문구가 채권 본 발행에도 적용되는지.</li>
+  <li><b>Oracle RPO의 OpenAI 비중</b> — 10-K RPO 주석과 고객 집중도 기재. "약 절반"은 S&amp;P 추정의 2차 인용이므로 Oracle 자체 공시로 확인 필요.</li>
+  <li><b>CoreWeave 이자비용·부채 잔액</b> — 10-Q 손익계산서 및 부채 주석. 이자비용/매출 24.9%는 보도 수치 기반 계산이므로 원문 대조 필요. GPU 담보 대출의 커버넌트 및 담보 평가 방식도 함께 확인.</li>
+  <li><b>NVIDIA 간접고객 구성</b> — 10-K의 간접고객 기재. "개별 10% 이상 추정" 대상이 누구인지 특정되지 않는다면 §06의 순환 비중은 <strong>구조적으로 산출 불가</strong>임이 확정된다.</li>
 </ul>
 
 <p style="margin-top:20px">
@@ -1084,7 +1470,7 @@ Form D(사모 발행 신고) 수준의 제한된 정보에 의존해야 한다. 
 
 <!-- ═══════════════ Sources ═══════════════ -->
 <section>
-<h2><span class="num">07</span> 참조 출처</h2>
+<h2><span class="num">10</span> 참조 출처</h2>
 <ol class="srcs">
   <li><a href="https://www.cnbc.com/2026/09/04/nvidia-ai-investments-99-billion.html">CNBC — Nvidia's investments grow to $99 billion (2026-09-04)</a></li>
   <li><a href="https://www.cnbc.com/2026/02/19/nvidia-is-in-talks-to-invest-up-to-30-billion-in-openai-source-says.html">CNBC — Nvidia in talks to invest up to $30B in OpenAI (2026-02-19)</a></li>
@@ -1123,14 +1509,301 @@ Form D(사모 발행 신고) 수준의 제한된 정보에 의존해야 한다. 
   <li><a href="https://futurumgroup.com/insights/ai-capex-2026-the-690b-infrastructure-sprint/">Futurum — 2026 AI capex estimates</a></li>
   <li><a href="https://datacenterrichness.substack.com/p/hyperscalers-plan-630-billion-in">Data Center Richness — Big Four $630B 2026 capex</a></li>
   <li><a href="https://www.tomshardware.com/tech-industry/big-tech/big-techs-ai-spending-plans-reach-725-billion">Tom's Hardware — $725B capex figure</a></li>
+  <li><a href="https://www.marketscreener.com/news/nvidia-annual-report-for-fiscal-year-ending-january-25-2026-form-10-k-ce7e5cd8d18af32d">MarketScreener — NVIDIA FY2026 10-K, 직접/간접고객 정의 및 집중도</a></li>
+  <li><a href="https://www.fool.com/investing/2025/11/27/blackwell-off-charts-nvidia-customer-concentration/">Motley Fool — NVIDIA Q3 FY2026 4개 고객 61%</a></li>
+  <li><a href="https://www.servethehome.com/nvidia-reports-q4-fy2026-earnings-data-center-and-proviz-drive-revenue-records/">ServeTheHome — NVIDIA FY2026 매출 $215.9B, DC $197.3B</a></li>
+  <li><a href="https://epoch.ai/data-insights/hyperscaler-capex-vs-cash-flow">Epoch AI — 하이퍼스케일러 capex 대 영업현금흐름 교차 시점</a></li>
+  <li><a href="https://insight.factset.com/hyperscalers-tap-external-financing-as-ai-capex-outruns-cash-flow">FactSet — 2025년 채권 $136B, capex의 1/3 조달</a></li>
+  <li><a href="https://www.ifre.com/bonds/2379081/oracle-raises-us25bn-in-bond-offering-as-ai-funding-spree-continues">IFR — Oracle $25B 채권 발행</a></li>
+  <li><a href="https://www.cnbc.com/2026/07/07/amazon-bond-sale-ai-debt.html">CNBC — Amazon $25B 채권, 2026년 추가 발행 없음</a></li>
+  <li><a href="https://aiweekly.co/alerts/alphabet-sells-25b-in-bonds-as-ai-order-book-tops-115b">AI Weekly — Alphabet $25B 채권, AI 인프라 capex 명시</a></li>
+  <li><a href="https://www.fi-desk.com/origination-meta-sold-us30-billion-of-ai-bonds-on-30-october/">The DESK — Meta $30B 6개 트랜치 발행</a></li>
+  <li><a href="https://www.tradingkey.com/analysis/stocks/us-stocks/262034371-oracle-ai-rpo-credit-downgrade-cash-flow-analysis-tradingkey">TradingKey — Oracle RPO $638B, S&amp;P 강등 분석</a></li>
+  <li><a href="https://marketwise.com/investing/oracle-stock-could-sink-another-50-percent-with-openai-risk/">MarketWise — S&amp;P: OpenAI가 Oracle RPO의 약 절반</a></li>
+  <li><a href="https://finance.yahoo.com/markets/stocks/articles/coreweave-ai-data-center-capacity-141107728.html">Yahoo Finance — CoreWeave 총부채 ~$35B</a></li>
+  <li><a href="https://www.cnbc.com/2026/05/07/coreweave-crwv-q1-earnings-report-2026.html">CNBC — CoreWeave Q1 2026 실적, 부채·이자비용·PP&amp;E</a></li>
+  <li><a href="https://www.cnbc.com/2026/08/11/coreweave-crwv-q2-earnings-report-2026.html">CNBC — CoreWeave Q2 2026 실적</a></li>
+  <li><a href="https://finance.yahoo.com/news/why-customer-concentration-long-term-153100788.html">Yahoo Finance — CoreWeave 고객 집중도(MSFT ~67%)</a></li>
+  <li><a href="https://finance.yahoo.com/markets/stocks/articles/coreweave-crwv-explores-chip-hedges-211057068.html">Yahoo Finance — CoreWeave $2.6B GPU 담보 대출</a></li>
+  <li><a href="https://finance.yahoo.com/markets/stocks/articles/michael-burry-says-nvidia-q2-075016802.html">Yahoo Finance — Burry의 "매출 100% 순환" 주장</a></li>
+  <li><a href="https://www.fool.com/investing/2026/08/19/is-nvidia-engaging-in-circular-financing-some-thin/">Motley Fool — NVIDIA 순환금융 논쟁 검토</a></li>
+  <li><a href="https://blogs.cuit.columbia.edu/gjb2124/circular-financing/">Columbia — 순환금융 생태계의 잠재 위험</a></li>
 </ol>
 </section>
 
 <footer>
 본 문서는 공개 검색 데이터를 기반으로 작성된 정량 참고자료이며 <strong>투자 자문이 아니다</strong>.
-1차 공시 원문 대조를 거친 항목은 없다(§검증 한계 고지). 수치 인용 시 §5의 상충 항목과
-§6의 검증 체크리스트를 함께 확인할 것.<br>
+1차 공시 원문 대조를 거친 항목은 없다(§검증 한계 고지). 수치 인용 시 §08의 상충 항목과
+§09의 검증 체크리스트를 함께 확인할 것.<br>
 조사 기준일 2026-09-14 · 글로벌 위험 감시 리서치 노트
 </footer>
 
 </div>
+
+<script>
+(function () {
+  var svg = document.getElementById("flowgraph");
+  if (!svg) return;
+  var SVGNS = "http://www.w3.org/2000/svg";
+
+  // seg: hw=칩/시스템, cl=클라우드, lab=모델랩, cap=자본시장
+  var NODES = [
+    { id: "cap",   label: "채권시장",    sub: "공모 IG",        seg: "cap", r: 34, x:  92, y: 118 },
+    { id: "pc",    label: "사모신용",    sub: "Blue Owl·PIMCO", seg: "cap", r: 28, x:  92, y: 452 },
+    { id: "hyp",   label: "Hyperion JV", sub: "SPV",            seg: "cap", r: 21, x: 126, y: 600 },
+    { id: "googl", label: "Alphabet",    sub: "",               seg: "cl",  r: 27, x: 122, y: 286 },
+    { id: "amzn",  label: "Amazon",      sub: "",               seg: "cl",  r: 31, x: 268, y: 208 },
+    { id: "msft",  label: "Microsoft",   sub: "",               seg: "cl",  r: 34, x: 352, y:  92 },
+    { id: "meta",  label: "Meta",        sub: "",               seg: "cl",  r: 31, x: 258, y: 432 },
+    { id: "nbis",  label: "Nebius",      sub: "",               seg: "cl",  r: 19, x: 308, y: 598 },
+    { id: "ant",   label: "Anthropic",   sub: "",               seg: "lab", r: 25, x: 392, y: 318 },
+    { id: "oai",   label: "OpenAI",      sub: "",               seg: "lab", r: 40, x: 528, y: 262 },
+    { id: "orcl",  label: "Oracle",      sub: "RPO $638B",      seg: "cl",  r: 33, x: 588, y:  96 },
+    { id: "crwv",  label: "CoreWeave",   sub: "부채 ~$35B",     seg: "cl",  r: 30, x: 514, y: 452 },
+    { id: "xai",   label: "xAI",         sub: "SpaceX 합병",    seg: "lab", r: 23, x: 590, y: 604 },
+    { id: "amd",   label: "AMD",         sub: "",               seg: "hw",  r: 22, x: 742, y: 186 },
+    { id: "nvda",  label: "NVIDIA",      sub: "FY26 $215.9B",   seg: "hw",  r: 46, x: 762, y: 336 },
+    { id: "avgo",  label: "Broadcom",    sub: "",               seg: "hw",  r: 24, x: 888, y: 176 },
+    { id: "tsmc",  label: "TSMC",        sub: "capex $60–64B",  seg: "hw",  r: 25, x: 886, y: 488 }
+  ];
+
+  // k: eq=지분/워런트, buy=구매약정, debt=부채, unk=금액 미공시
+  // c: 곡률 (양수=시계방향으로 휘어짐)
+  var LINKS = [
+    { s: "cap",  t: "orcl",  v: "25",       k: "debt", id: "L1",  c: -0.22 },
+    { s: "cap",  t: "meta",  v: "30",       k: "debt", id: "L2",  c:  0.20 },
+    { s: "cap",  t: "amzn",  v: "~57",      k: "debt", id: "L3",  c: -0.14 },
+    { s: "cap",  t: "googl", v: "~52",      k: "debt", id: "L4",  c:  0.18 },
+    { s: "pc",   t: "hyp",   v: "27",       k: "debt", id: "L5",  c:  0.12 },
+    { s: "hyp",  t: "meta",  v: "시설",     k: "debt", id: "L6",  c:  0.18 },
+    { s: "pc",   t: "xai",   v: "12.5",     k: "debt", id: "L7",  c:  0.26 },
+    { s: "pc",   t: "crwv",  v: "GPU담보",  k: "debt", id: "L8",  c: -0.38 },
+
+    { s: "nvda", t: "oai",   v: "30",       k: "eq",   id: "E1",  c: -0.20 },
+    { s: "nvda", t: "crwv",  v: "2 + 백스톱 6.3", k: "eq", id: "E2", c: 0.16 },
+    { s: "nvda", t: "ant",   v: "≤10",      k: "eq",   id: "E3",  c: -0.30 },
+    { s: "nvda", t: "xai",   v: "참여",     k: "eq",   id: "E4",  c:  0.24 },
+    { s: "msft", t: "ant",   v: "≤5",       k: "eq",   id: "E5",  c: -0.18 },
+    { s: "msft", t: "oai",   v: "27% 지분", k: "eq",   id: "E6",  c:  0.52 },
+    { s: "amzn", t: "oai",   v: "50",       k: "eq",   id: "E7",  c: -0.36 },
+    { s: "amd",  t: "oai",   v: "워런트 1.6억주", k: "eq", id: "E8", c: -0.42 },
+
+    { s: "oai",  t: "orcl",  v: "300",      k: "buy",  id: "B1",  c:  0.26 },
+    { s: "oai",  t: "msft",  v: "250",      k: "buy",  id: "B2",  c: -0.46 },
+    { s: "oai",  t: "avgo",  v: "350",      k: "buy",  id: "B3",  c: -0.24 },
+    { s: "oai",  t: "amd",   v: "90",       k: "buy",  id: "B4",  c:  0.42 },
+    { s: "oai",  t: "amzn",  v: "38",       k: "buy",  id: "B5",  c:  0.38 },
+    { s: "oai",  t: "crwv",  v: "22.4",     k: "buy",  id: "B6",  c: -0.14 },
+    { s: "ant",  t: "msft",  v: "30",       k: "buy",  id: "B7",  c:  0.22 },
+    { s: "meta", t: "crwv",  v: "21",       k: "buy",  id: "B8",  c: -0.14 },
+    { s: "meta", t: "nbis",  v: "≤27",      k: "buy",  id: "B9",  c:  0.16 },
+    { s: "msft", t: "crwv",  v: "~60 (3사)",k: "buy",  id: "B10", c: -0.46 },
+
+    { s: "crwv", t: "nvda",  v: "", k: "unk", id: "U1", c: 0.14 },
+    { s: "orcl", t: "nvda",  v: "", k: "unk", id: "U2", c: 0.16 },
+    { s: "msft", t: "nvda",  v: "", k: "unk", id: "U3", c: -0.34 },
+    { s: "meta", t: "nvda",  v: "", k: "unk", id: "U4", c: 0.30 },
+    { s: "amzn", t: "nvda",  v: "", k: "unk", id: "U5", c: -0.30 },
+    { s: "googl",t: "nvda",  v: "", k: "unk", id: "U6", c: 0.34 },
+    { s: "xai",  t: "nvda",  v: "", k: "unk", id: "U7", c: 0.16 },
+    { s: "nbis", t: "nvda",  v: "", k: "unk", id: "U8", c: 0.30 },
+    { s: "nvda", t: "tsmc",  v: "", k: "unk", id: "U9", c: 0.14 }
+  ];
+
+  var CYCLES = {
+    a: { links: ["E1", "B1", "U2"], cap: "고리 A — NVIDIA가 OpenAI에 300억 달러 지분투자, OpenAI가 Oracle에 3,000억 달러 구매약정, Oracle이 NVIDIA GPU를 발주. 마지막 간선의 금액이 공시되지 않아 고리가 닫히는 크기는 확인할 수 없다." },
+    b: { links: ["E2", "L8", "U1", "B10", "B6", "B8"], cap: "고리 B — 지분·백스톱·설비투자액이 모두 관측되는 유일한 폐곡선. NVIDIA 지분 10–13% + 백스톱 63억 달러, CoreWeave의 1분기 유형자산 지출 77억 달러, Q2 이자비용은 매출의 24.9%." },
+    c: { links: ["E5", "E3", "B7"], cap: "고리 C — Microsoft·NVIDIA가 Anthropic에 최대 150억 달러 투자, Anthropic이 Azure 컴퓨트 300억 달러를 구매 약정. 투자 한도의 2배가 구매약정으로 되돌아오는 구조." },
+    d: { links: ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "L8"], cap: "부채 유입 경로 — 실제 자금 원천. 2025년 5대 하이퍼스케일러의 채권 발행 1,360억 달러가 capex의 약 3분의 1을 조달했고, 2026년 상반기에만 약 2,000억 달러로 증가했다. 순환 고리는 이 자금을 회전시킬 뿐 창출하지 않는다." }
+  };
+
+  var SEG  = { hw: "--c-hardware", cl: "--c-compute", lab: "--c-equity", cap: "--c-debt" };
+  var KIND = { eq: "--c-equity", buy: "--c-compute", debt: "--c-debt", unk: "--muted" };
+
+  function tok(name) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || "#888";
+  }
+  function el(tag, attrs) {
+    var e = document.createElementNS(SVGNS, tag);
+    for (var k in attrs) if (attrs[k] !== null && attrs[k] !== undefined) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+
+  var byId = {};
+  NODES.forEach(function (n) { byId[n.id] = n; });
+
+  // Quadratic arc from source edge to target edge, bowed by curvature c.
+  function geom(l) {
+    var a = byId[l.s], b = byId[l.t];
+    var dx = b.x - a.x, dy = b.y - a.y;
+    var len = Math.sqrt(dx * dx + dy * dy) || 1;
+    var ux = dx / len, uy = dy / len;
+    var sx = a.x + ux * a.r, sy = a.y + uy * a.r;
+    var ex = b.x - ux * (b.r + 8), ey = b.y - uy * (b.r + 8);
+    var mx = (sx + ex) / 2, my = (sy + ey) / 2;
+    var cx = mx - uy * len * l.c, cy = my + ux * len * l.c;
+    // point on the quadratic at t = 0.5, where the label sits
+    var lx = 0.25 * sx + 0.5 * cx + 0.25 * ex;
+    var ly = 0.25 * sy + 0.5 * cy + 0.25 * ey;
+    return { d: "M" + sx + "," + sy + "Q" + cx + "," + cy + " " + ex + "," + ey, lx: lx, ly: ly };
+  }
+
+  while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+  var defs = el("defs", {});
+  Object.keys(KIND).forEach(function (k) {
+    var m = el("marker", {
+      id: "arw-" + k, viewBox: "0 -5 10 10", refX: 9, refY: 0,
+      markerWidth: 5, markerHeight: 5, orient: "auto"
+    });
+    m.appendChild(el("path", { d: "M0,-4L9,0L0,4", fill: tok(KIND[k]) }));
+    defs.appendChild(m);
+  });
+  svg.appendChild(defs);
+
+  var gLink = el("g", {}), gLbl = el("g", {}), gNode = el("g", {});
+  svg.appendChild(gLink); svg.appendChild(gLbl); svg.appendChild(gNode);
+
+  var linkEls = {}, lblEls = {}, nodeEls = {};
+
+  LINKS.forEach(function (l) {
+    var g = geom(l);
+    var p = el("path", {
+      "class": "lk", d: g.d,
+      stroke: tok(KIND[l.k]),
+      "stroke-width": l.k === "unk" ? 1.4 : 2.1,
+      "stroke-dasharray": l.k === "unk" ? "4 4" : null,
+      opacity: l.k === "unk" ? 0.5 : 0.78,
+      "marker-end": "url(#arw-" + l.k + ")"
+    });
+    p.dataset.k = l.k;
+    p.addEventListener("mouseenter", function () {
+      if (lblEls[l.id]) lblEls[l.id].classList.add("on");
+    });
+    p.addEventListener("mouseleave", function () {
+      if (lblEls[l.id] && !active && !lblEls[l.id].dataset.pinned) lblEls[l.id].classList.remove("on");
+    });
+    gLink.appendChild(p);
+    linkEls[l.id] = p;
+
+    if (l.v) {
+      var t = el("text", { "class": "lbl", x: g.lx, y: g.ly - 4 });
+      t.textContent = l.v;
+      gLbl.appendChild(t);
+      lblEls[l.id] = t;
+    }
+  });
+
+  NODES.forEach(function (n) {
+    var g = el("g", {
+      "class": "nd", transform: "translate(" + n.x + "," + n.y + ")",
+      tabindex: 0, role: "button", "aria-label": n.label
+    });
+    var c = el("circle", { r: n.r, fill: tok(SEG[n.seg]) });
+    c.dataset.seg = n.seg;
+    g.appendChild(c);
+    var t1 = el("text", { y: n.r + 15 });
+    t1.textContent = n.label;
+    g.appendChild(t1);
+    if (n.sub) {
+      var t2 = el("text", { "class": "sub", y: n.r + 27 });
+      t2.textContent = n.sub;
+      g.appendChild(t2);
+    }
+    gNode.appendChild(g);
+    nodeEls[n.id] = g;
+  });
+
+  var capEl = document.getElementById("gcap");
+  var CAP0 = capEl.textContent;
+  var btns = Array.prototype.slice.call(document.querySelectorAll(".gbtn"));
+  var active = null;
+
+  function paint(keepLinks, keepNodes) {
+    LINKS.forEach(function (l) {
+      var on = !keepLinks || keepLinks.indexOf(l.id) !== -1;
+      linkEls[l.id].classList.toggle("dim", !on);
+      if (lblEls[l.id]) {
+        var show = !!keepLinks && on;
+        lblEls[l.id].classList.toggle("on", show);
+        if (show) lblEls[l.id].dataset.pinned = "1";
+        else delete lblEls[l.id].dataset.pinned;
+      }
+    });
+    NODES.forEach(function (n) {
+      var on = !keepNodes || keepNodes.indexOf(n.id) !== -1;
+      nodeEls[n.id].classList.toggle("dim", !on);
+      nodeEls[n.id].querySelector("circle").setAttribute("opacity", on ? 1 : 0.14);
+    });
+  }
+
+  function reset() {
+    active = null;
+    paint(null, null);
+    capEl.textContent = CAP0;
+    btns.forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.cycle === "all" ? "true" : "false"); });
+  }
+
+  function endpointsOf(ids) {
+    var ns = [];
+    LINKS.forEach(function (l) {
+      if (ids.indexOf(l.id) === -1) return;
+      if (ns.indexOf(l.s) === -1) ns.push(l.s);
+      if (ns.indexOf(l.t) === -1) ns.push(l.t);
+    });
+    return ns;
+  }
+
+  function showCycle(key) {
+    var c = CYCLES[key];
+    if (!c) { reset(); return; }
+    active = null;
+    paint(c.links, endpointsOf(c.links));
+    capEl.textContent = c.cap;
+  }
+
+  function focusNode(id) {
+    var ls = [];
+    LINKS.forEach(function (l) { if (l.s === id || l.t === id) ls.push(l.id); });
+    paint(ls, endpointsOf(ls).concat([id]));
+    var inn = LINKS.filter(function (l) { return l.t === id; }).length;
+    var out = LINKS.filter(function (l) { return l.s === id; }).length;
+    capEl.textContent = byId[id].label + " — 유입 " + inn + "건, 유출 " + out + "건. 점선은 금액이 공시되지 않은 거래다. 다시 클릭하면 해제.";
+    btns.forEach(function (b) { b.setAttribute("aria-pressed", "false"); });
+  }
+
+  NODES.forEach(function (n) {
+    function toggle() {
+      if (active === n.id) { reset(); return; }
+      active = n.id;
+      focusNode(n.id);
+    }
+    nodeEls[n.id].addEventListener("click", toggle);
+    nodeEls[n.id].addEventListener("keydown", function (ev) {
+      if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); toggle(); }
+    });
+  });
+
+  btns.forEach(function (b) {
+    b.setAttribute("aria-pressed", b.dataset.cycle === "all" ? "true" : "false");
+    b.addEventListener("click", function () {
+      var k = b.dataset.cycle;
+      if (k === "all") { reset(); return; }
+      btns.forEach(function (o) { o.setAttribute("aria-pressed", o === b ? "true" : "false"); });
+      showCycle(k);
+    });
+  });
+
+  // Repaint token-derived colors when the viewer's OS theme flips.
+  var mq = window.matchMedia("(prefers-color-scheme: dark)");
+  function recolor() {
+    LINKS.forEach(function (l) { linkEls[l.id].setAttribute("stroke", tok(KIND[l.k])); });
+    NODES.forEach(function (n) { nodeEls[n.id].querySelector("circle").setAttribute("fill", tok(SEG[n.seg])); });
+    Object.keys(KIND).forEach(function (k) {
+      var m = defs.querySelector("#arw-" + k + " path");
+      if (m) m.setAttribute("fill", tok(KIND[k]));
+    });
+  }
+  if (mq.addEventListener) mq.addEventListener("change", recolor);
+})();
+</script>
